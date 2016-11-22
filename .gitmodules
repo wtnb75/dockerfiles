@@ -1,0 +1,3 @@
+[submodule "stgt"]
+	path = stgt
+	url = https://github.com/wtnb75/docker-stgt.git
