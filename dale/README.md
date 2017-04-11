@@ -10,7 +10,7 @@
 (def main (fn extern-c int ((argc int) (argv (p (p char))))
   (printf "hello, world\n")))
 
-[local]# docker run -v $PWD:/c -w /c wtnb75/dale dalec hello.dt
-[local]# docker run -v $PWD:/c -w /c wtnb75/dale ./a.out
+[local]# docker run --rm -v $PWD:/c -w /c wtnb75/dale dalec hello.dt
+[local]# docker run --rm -v $PWD:/c -w /c wtnb75/dale ./a.out
 hello, world
 ```
