@@ -1,4 +1,6 @@
-# dale compoler
+# dale compiler
+
+[dale](https://github.com/tomhrr/dale) is "Lisp-flavoured C"
 
 ## Usage
 
