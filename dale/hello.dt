@@ -1,0 +1,5 @@
+(import cstdio)
+
+(def main (fn extern-c int ((argc int) (argv (p (p char))))
+  (printf "hello, world\n")))
+
