@@ -14,4 +14,4 @@ FROM python:3.4
 ARG tfver=1.2.1
 COPY --from=build /tmp/tensorflow_pkg/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl /tmp/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl
 RUN pip install /tmp/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl
-RUN pip install keras h5py pandas
+RUN pip install keras h5py pandas sklearn

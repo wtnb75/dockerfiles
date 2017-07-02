@@ -11,6 +11,7 @@ RUN bazel build -c opt --copt=-mavx --copt=-msse4.1 --copt=-msse4.2 //tensorflow
 RUN bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
 FROM python:2
+ARG tfver=1.2.1
 COPY --from=build /tmp/tensorflow_pkg/tensorflow-${tfver}-cp27-none-linux_x86_64.whl /tmp/tensorflow-${tfver}-cp27-none-linux_x86_64.whl
 RUN pip install /tmp/tensorflow-${tfver}-cp27-none-linux_x86_64.whl
-RUN pip install keras h5py pandas
+RUN pip install keras h5py pandas sklearn
