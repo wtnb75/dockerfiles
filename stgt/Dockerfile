@@ -1,8 +1,9 @@
 FROM centos:centos7 AS build
+ARG tgtver=1.0.71
 RUN yum -y install gcc make
-RUN curl -LO https://github.com/fujita/tgt/archive/v${tgtver:-1.0.69}.tar.gz
-RUN tar xfz v${tgtver:-1.0.69}.tar.gz
-RUN make -C tgt-${tgtver:-1.0.69} install-programs install-scripts
+RUN curl -LO https://github.com/fujita/tgt/archive/v${tgtver}.tar.gz
+RUN tar xfz v${tgtver}.tar.gz
+RUN make -C tgt-${tgtver} install-programs install-scripts
 
 FROM alpine
 RUN mkdir /lib64
