@@ -6,7 +6,7 @@ RUN mkdir /src
 #RUN tar xfz /src/v${tfver}.tar.gz -C /src
 ADD v${tfver}.tar.gz /src/
 WORKDIR /src/tensorflow-${tfver}
-RUN yes '' | env CC_OPT_FLAG="-march=native" ./configure
+RUN yes '' | env PYTHON_BIN_PATH=/usr/bin/python3 CC_OPT_FLAG="-march=native" ./configure
 RUN bazel build -c opt --copt=-mavx --copt=-msse4.1 --copt=-msse4.2 //tensorflow/tools/pip_package:build_pip_package
 RUN bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
