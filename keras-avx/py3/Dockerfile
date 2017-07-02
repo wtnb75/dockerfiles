@@ -10,7 +10,8 @@ RUN yes '' | env PYTHON_BIN_PATH=/usr/bin/python3 CC_OPT_FLAG="-march=native" ./
 RUN bazel build -c opt --copt=-mavx --copt=-msse4.1 --copt=-msse4.2 //tensorflow/tools/pip_package:build_pip_package
 RUN bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
 
-FROM python:3
-COPY --from=build /tmp/tensorflow_pkg/tensorflow-${tfver}-cp34-none-linux_x86_64.whl /tmp/tensorflow-${tfver}-cp34-none-linux_x86_64.whl
-RUN pip install /tmp/tensorflow-${tfver}-cp34-none-linux_x86_64.whl
+FROM python:3.4
+ARG tfver=1.2.1
+COPY --from=build /tmp/tensorflow_pkg/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl /tmp/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl
+RUN pip install /tmp/tensorflow-${tfver}-cp34-cp34m-linux_x86_64.whl
 RUN pip install keras h5py pandas
