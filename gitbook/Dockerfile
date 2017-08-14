@@ -1,5 +1,5 @@
 FROM frolvlad/alpine-glibc
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/calibre/lib
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/lib64:/opt/calibre/lib
 ENV PATH $PATH:/opt/calibre/bin
 RUN echo 'http://dl-3.alpinelinux.org/alpine/edge/testing/' >> /etc/apk/repositories
 RUN apk add --no-cache openjdk8-jre nodejs graphviz mesa-gl git font-ipa curl nodejs-npm
