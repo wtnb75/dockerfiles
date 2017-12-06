@@ -1,0 +1,16 @@
+# open http://$(docker-machine ip):8080
+version: '2'
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: ryanratcliff/mongodb
+    #volumes:
+    #  - ./data:/data/db
+
+  mviewer:
+    container_name: mviewer
+    image: ryanratcliff/mviewer
+    ports:
+      - 8080:8080
+    depends_on: [ mongodb ]
