@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  minio:
+    container_name: minio
+    image: minio/minio
+    ports:
+     - 9000:9000
+    volumes:
+     - ./data:/data
+    command: ["server", "/data"]
+    environment:
+     - MINIO_ACCESS_KEY=minio
+     - MINIO_SECRET_KEY=miniominio
+
+  fluentd:
+    container_name: fluentd
+    image: cheungpat/fluentd-s3
+    ports:
+     - 24224:24224
+     - 24224:24224/udp
+    volumes:
+     - ./fluentd:/fluentd
+    environment:
+     - FLUENTD_CONF=s3.conf
+
+  generate:
+    depends_on:
+     - fluentd
+     - minio
+    container_name: generate
+    image: alpine
+    command: ["sh", "-c", "dd if=/dev/urandom | od -x"]
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "localhost:24224"
+        tag: "{{.ImageName}}/{{.ImageFullID}}"
