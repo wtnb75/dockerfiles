@@ -1,0 +1,10 @@
+version: '3'
+services:
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: sbtest
+      MYSQL_PASSWORD: sbtest
+      MYSQL_DATABASE: sbtest
+    command: mysqld --character-set-server=utf8mb4 --default-authentication-plugin=mysql_native_password

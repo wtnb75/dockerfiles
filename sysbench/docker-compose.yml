@@ -1,0 +1,9 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./sysbench.alpine
+    volumes:
+      - .:/w
+    working_dir: /w
+    command: sleep 10d

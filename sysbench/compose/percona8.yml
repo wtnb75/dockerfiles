@@ -1,0 +1,9 @@
+version: '3'
+services:
+  db:
+    image: percona:8
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_USER: sbtest
+      MYSQL_PASSWORD: sbtest
+      MYSQL_DATABASE: sbtest

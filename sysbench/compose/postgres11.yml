@@ -1,0 +1,7 @@
+version: '3'
+services:
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: sbtest
+      POSTGRES_PASSWORD: sbtest
