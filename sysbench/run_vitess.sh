@@ -1,7 +1,7 @@
 #! /bin/sh
 
 port=15306
-args="/usr/local/share/sysbench/oltp_read_write.lua --db-driver=mysql --table-size=1000000 --mysql-host=db --mysql-port=${port} --mysql-user=root --mysql-db=test_keyspace --time=60 --db-ps-mode=disable"
+args="/usr/local/share/sysbench/oltp_read_write.lua --db-driver=mysql --table-size=1000000 --mysql-host=db --mysql-port=${port} --mysql-user=root --mysql-db=sbtest --time=60 --db-ps-mode=disable"
 
 waitfor(){
   /wait-for -it db:${port}
