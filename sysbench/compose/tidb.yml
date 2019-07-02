@@ -61,4 +61,4 @@ services:
      - --store=tikv
      - --path=pd0:2379
      - --config=/tidb.toml
-    depends_on: [tikv0]
+    depends_on: [tikv1, tikv2, tikv3]
