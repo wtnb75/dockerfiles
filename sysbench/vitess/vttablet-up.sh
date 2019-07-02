@@ -6,14 +6,12 @@ set -u
 keyspace=${KEYSPACE:-'test_keyspace'}
 shard=${SHARD:-'0'}
 uid=$1
+shift
+tablet_role=${1-master}
+shift
 
 als=$(printf '%s-%010d' $CELL $uid)
 tablet_dir=$(printf 'vt_%010d' $uid)
-
-tablet_role='replica'
-if [ "$uid" = "1" ]; then
-    tablet_role='master'
-fi
 
 init_db_sql_file="$VTROOT/init_db.sql"
 echo "GRANT ALL ON *.* TO 'root'@'%';" > $init_db_sql_file

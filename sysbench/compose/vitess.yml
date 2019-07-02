@@ -24,21 +24,32 @@ services:
      - 3306:15306
     command: sh /w/start_vtgate.sh
     depends_on: [vtctld]
+    restart: always
   vttablet1:
     image: vitess/base
     volumes:
      - ./vitess:/w
-    command: sh /w/vttablet-up.sh 1
+    command: sh /w/vttablet-up.sh 1 master
     depends_on: [vtctld]
   vttablet2:
     image: vitess/base
     volumes:
      - ./vitess:/w
-    command: sh /w/vttablet-up.sh 2
+    command: sh /w/vttablet-up.sh 2 replica
     depends_on: [vtctld]
   vttablet3:
     image: vitess/base
     volumes:
      - ./vitess:/w
-    command: sh /w/vttablet-up.sh 3
+    command: sh /w/vttablet-up.sh 3 master
+    environment:
+      KEYSPACE: sbtest
+    depends_on: [vtctld]
+  vttablet4:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    command: sh /w/vttablet-up.sh 4 replica
+    environment:
+      KEYSPACE: sbtest
     depends_on: [vtctld]
