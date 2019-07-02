@@ -1,0 +1,44 @@
+version: '3'
+services:
+#  zoo1:
+#    image: zookeeper
+#    environment:
+#      ZOO_MY_ID: 1
+#      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181
+  consul1:
+    image: consul
+    command: "agent -server -bootstrap-expect 1 -ui -disable-host-node-id -client 0.0.0.0"
+  vtctld:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    ports:
+     - 8080:8080
+    command: sh /w/start_vtctld.sh
+    depends_on: [consul1]
+  db:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    ports:
+     - 3306:15306
+    command: sh /w/start_vtgate.sh
+    depends_on: [vtctld]
+  vttablet1:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    command: sh /w/vttablet-up.sh 1
+    depends_on: [vtctld]
+  vttablet2:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    command: sh /w/vttablet-up.sh 2
+    depends_on: [vtctld]
+  vttablet3:
+    image: vitess/base
+    volumes:
+     - ./vitess:/w
+    command: sh /w/vttablet-up.sh 3
+    depends_on: [vtctld]

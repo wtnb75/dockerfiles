@@ -13,6 +13,7 @@ scr=(
   postgres10 pgsql
   postgres11 pgsql
   postgres12 pgsql
+  vitess vitess
 )
 
 for y in compose/*.yml ; do
