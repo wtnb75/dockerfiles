@@ -31,25 +31,21 @@ services:
      - ./vitess:/w
     command: sh /w/vttablet-up.sh 1 master
     depends_on: [vtctld]
+    environment:
+      KEYSPACE: sbtest
   vttablet2:
     image: vitess/base
     volumes:
      - ./vitess:/w
     command: sh /w/vttablet-up.sh 2 replica
     depends_on: [vtctld]
+    environment:
+      KEYSPACE: sbtest
   vttablet3:
     image: vitess/base
     volumes:
      - ./vitess:/w
-    command: sh /w/vttablet-up.sh 3 master
-    environment:
-      KEYSPACE: sbtest
-    depends_on: [vtctld]
-  vttablet4:
-    image: vitess/base
-    volumes:
-     - ./vitess:/w
-    command: sh /w/vttablet-up.sh 4 replica
+    command: sh /w/vttablet-up.sh 3 rdonly
     environment:
       KEYSPACE: sbtest
     depends_on: [vtctld]

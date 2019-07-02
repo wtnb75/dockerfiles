@@ -8,4 +8,12 @@ services:
       POSTGRES_USER: sbtest
       POSTGRES_PASSWORD: sbtest
       POSTGRES_DB: sbtest
+    ports:
+      - 8080:8080
     command: start --insecure
+  slave1:
+    image: cockroachdb/cockroach:v19.1.2
+    command: start --insecure --join=db
+  slave2:
+    image: cockroachdb/cockroach:v19.1.2
+    command: start --insecure --join=db
