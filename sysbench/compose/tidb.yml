@@ -14,15 +14,39 @@ services:
      - --initial-cluster=pd0=http://pd0:2380
      - --data-dir=/data/pd0
      - --config=/pd.toml
-  tikv0:
+  tikv1:
     image: pingcap/tikv:latest
     volumes:
      - ./tidb/tikv.toml:/tikv.toml:ro
      - /data
     command:
      - --addr=0.0.0.0:20160
-     - --advertise-addr=tikv0:20160
-     - --data-dir=/data/tikv0
+     - --advertise-addr=tikv1:20160
+     - --data-dir=/data/tikv
+     - --pd=pd0:2379
+     - --config=/tikv.toml
+    depends_on: [pd0]
+  tikv2:
+    image: pingcap/tikv:latest
+    volumes:
+     - ./tidb/tikv.toml:/tikv.toml:ro
+     - /data
+    command:
+     - --addr=0.0.0.0:20160
+     - --advertise-addr=tikv2:20160
+     - --data-dir=/data/tikv
+     - --pd=pd0:2379
+     - --config=/tikv.toml
+    depends_on: [pd0]
+  tikv3:
+    image: pingcap/tikv:latest
+    volumes:
+     - ./tidb/tikv.toml:/tikv.toml:ro
+     - /data
+    command:
+     - --addr=0.0.0.0:20160
+     - --advertise-addr=tikv3:20160
+     - --data-dir=/data/tikv
      - --pd=pd0:2379
      - --config=/tikv.toml
     depends_on: [pd0]
