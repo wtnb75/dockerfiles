@@ -12,10 +12,14 @@ services:
     depends_on: [master]
     command: spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
   jupyter:
-    build: ./jupyter
+    build: ./image
     depends_on: [master]
+    volumes:
+      - ./jupyter_notebook_config.json:/root/.jupyter/jupyter_notebook_config.json
+      - ./:/w
     ports:
       - 8888:8888
-    volumes:
-     - ./:/w
+    #environment:
+    #  "__TOREE_SPARK_OPTS__": "--master spark://master:7077"
     working_dir: /w
+    command: jupyter notebook --ip 0.0.0.0 --allow-root
