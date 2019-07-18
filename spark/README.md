@@ -34,6 +34,24 @@ res0: String = spark://master:7077
 ```
 
 
+# S3のデータを読み込む
+
+(まだ動かない)
+
+- docker-compose exec master spark-shell --master spark://master:7077 --packages org.apache.hadoop:hadoop-aws:2.7.1
+- val akey = "minio"
+- val skey = "miniominio"
+- val endpoint = "http://storage:9000"
+- sc.hadoopConfiguration.set("fs.s3a.awsAccessKeyId", akey)
+- sc.hadoopConfiguration.set("fs.s3a.awsSecretAccessKey", skey)
+- sc.hadoopConfiguration.set("fs.s3a.endpoint", endpoint)
+- sc.hadoopConfiguration.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+- sc.hadoopConfiguration.set("fs.s3a.connection.ssl.enabled", "false")
+- sc.hadoopConfiguration.set("fs.s3a.path.style.access", "true")
+- sc.hadoopConfiguration.set("fs.s3a.aws.credentials.provider", "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider")
+- sc.hadoopConfiguration.set("fs.s3a.access.key", akey)
+- sc.hadoopConfiguration.set("fs.s3a.secret.key", skey)
+
 ## pysparkを動かしてみる
 
 ```
@@ -65,3 +83,35 @@ To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLeve
   - [sum1](./sum1.ipynb)
   - [wordcount-scala](./wordcount-scala.ipynb)
   - [runjob](./runjob.ipynb)
+
+## HDFSを使う
+
+ローカルファイルを参照する場合、全てのノードで同じパスで同じファイルが参照できる必要があり、使いにくい。HDFSやS3などを使えば解消できる。
+
+- docker-compose -f hdfs.yml build
+- docker-compose -f docker-compose.yml -f hdfs.yml up -d --scale datanode=3 --scale worker=3
+  - HDFSのアドレスは hdfs://namenode
+  - HDFSのWebUIは http://localhost:9870 
+
+```
+scala> val txt = sc.textFile("/spark/README.md")
+scala> txt.saveAsTextFile("hdfs://namenode/README.md")
+```
+
+HDFS側からも見える
+
+```
+# docker-compose -f docker-compose.yml -f hdfs.yml exec namenode hdfs dfs -ls /
+Found 1 items
+drwxr-xr-x   - root supergroup          0 2019-07-18 02:42 /README.md
+# docker-compose -f docker-compose.yml -f hdfs.yml exec namenode hdfs dfs -ls /README.md
+Found 3 items
+-rw-r--r--   3 root supergroup          0 2019-07-18 02:42 /README.md/_SUCCESS
+-rw-r--r--   3 root supergroup       2030 2019-07-18 02:42 /README.md/part-00000
+-rw-r--r--   3 root supergroup       1922 2019-07-18 02:42 /README.md/part-00001
+```
+
+
+```python
+
+```
