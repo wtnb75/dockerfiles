@@ -2,14 +2,14 @@ version: '3'
 
 services:
   namenode:
-    build: ./hdfs.image
+    build: ./image
     command: /start-namenode.sh hdfs://namenode -Ddfs.replication=1
     volumes:
       - /tmp/hadoop-root
     ports:
       - 9870:9870
   datanode:
-    build: ./hdfs.image
+    build: ./image
     command: /start-datanode.sh hdfs://namenode -Ddfs.replication=1
     volumes:
       - /tmp/hadoop-root

@@ -23,13 +23,3 @@ services:
     #  "__TOREE_SPARK_OPTS__": "--master spark://master:7077"
     working_dir: /w
     command: jupyter notebook --ip 0.0.0.0 --allow-root
-  storage:
-    image: minio/minio
-    volumes:
-     - /export
-    ports:
-     - 9000:9000
-    environment:
-     MINIO_ACCESS_KEY: minio
-     MINIO_SECRET_KEY: miniominio
-    command: server /export
